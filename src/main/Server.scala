@@ -16,8 +16,6 @@ object Server {
   private val server: HttpServer = HttpServer.create(new InetSocketAddress(InetAddress.getByName(nic), port), 0)
   
   val logger: Logger = Logger.getLogger(this.getClass.toString)
-  val routes: Map[String, HttpHandler] = Routes.getClass.getDeclaredClasses.map(m => m.getSimpleName -> 
-    m.asInstanceOf[HttpHandler]).toMap
   
   logger.info("Starting server on " + nic + ":" + port)
   server.setExecutor(null)
