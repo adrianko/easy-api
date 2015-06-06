@@ -1,0 +1,16 @@
+apply plugin: 'scala'
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+
+sourceSets {
+	main.scala.srcDir 'src'
+}
+
+task run(type: JavaExec, dependsOn: classes) {
+	main = 'main.Server'
+	classpath = sourceSets.main.runtimeClasspath
+	classpath configuration.runtime
+}
