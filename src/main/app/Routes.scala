@@ -3,21 +3,17 @@ package main.app
 
 class Endpoint {
   
-  protected var get: collection.mutable.Map[String, String] = null
-  protected var post: collection.mutable.Map[String, String] = null
+  protected var get: collection.mutable.Map[String, String] = collection.mutable.Map[String, String]()
+  protected var post: collection.mutable.Map[String, String] = collection.mutable.Map[String, String]()
   
   def clearParams() {
-    get = collection.mutable.Map[String, String]()
-    post = collection.mutable.Map[String, String]()
+    get.empty
+    post.empty
   }
 
-  def setGetParams(params: Map[String, String]) {
-    get.++=(params)
-  }
+  def setGetParams(params: Map[String, String]) = get.++=(params)
 
-  def setPostParams(params: Map[String, String]) {
-    post.++=(params)
-  }
+  def setPostParams(params: Map[String, String]) = post.++=(params)
   
 }
 
