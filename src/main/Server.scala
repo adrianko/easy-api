@@ -5,6 +5,7 @@ import java.util.logging.Logger
 
 import com.sun.net.httpserver.{HttpHandler, HttpServer}
 import main.app.Routes
+import main.core.Handler
 
 object Server {
   
@@ -20,6 +21,7 @@ object Server {
   
   logger.info("Starting server on " + nic + ":" + port)
   server.setExecutor(null)
+  server.createContext("/", Handler)
   server.start()
   
   def stop(): Unit = server.stop(0)
