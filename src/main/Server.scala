@@ -3,14 +3,20 @@ package main
 import java.net.{InetAddress, InetSocketAddress}
 import java.util.logging.Logger
 
-import com.sun.net.httpserver.HttpServer
+import com.sun.net.httpserver.{HttpHandler, HttpServer}
+import main.app.Routes
 
 object Server {
   
   val nic: String = "0.0.0.0"
   val port: Int = 9090
+  val path = "/"
+  
   private val server: HttpServer = HttpServer.create(new InetSocketAddress(InetAddress.getByName(nic), port), 0)
   private val logger: Logger = Logger.getLogger(this.getClass.toString)
+  
+  val routes: Map[String, HttpHandler] = Routes.getClass.getDeclaredClasses.map(m => m.getSimpleName -> 
+    m.asInstanceOf[HttpHandler]).toMap
   
   logger.info("Starting server on " + nic + ":" + port)
   server.setExecutor(null)
