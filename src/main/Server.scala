@@ -3,8 +3,7 @@ package main
 import java.net.{InetAddress, InetSocketAddress}
 import java.util.logging.Logger
 
-import com.sun.net.httpserver.{HttpHandler, HttpServer}
-import main.app.Routes
+import com.sun.net.httpserver.HttpServer
 import main.core.Handler
 
 object Server {
