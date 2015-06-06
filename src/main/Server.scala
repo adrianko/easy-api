@@ -13,8 +13,8 @@ object Server {
   val path = "/"
   
   private val server: HttpServer = HttpServer.create(new InetSocketAddress(InetAddress.getByName(nic), port), 0)
-  private val logger: Logger = Logger.getLogger(this.getClass.toString)
   
+  val logger: Logger = Logger.getLogger(this.getClass.toString)
   val routes: Map[String, HttpHandler] = Routes.getClass.getDeclaredClasses.map(m => m.getSimpleName -> 
     m.asInstanceOf[HttpHandler]).toMap
   

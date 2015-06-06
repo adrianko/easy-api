@@ -7,7 +7,9 @@ abstract class Endpoint extends HttpHandler
 object Routes {
   
   class settings extends Endpoint {
-    override def handle(httpExchange: HttpExchange): Unit = ???
+    override def handle(httpExchange: HttpExchange): Unit = {
+      
+    }
   }
   
 }
