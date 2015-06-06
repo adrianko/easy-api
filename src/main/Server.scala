@@ -11,17 +11,13 @@ object Server {
   val port: Int = 9090
   private val server: HttpServer = HttpServer.create(new InetSocketAddress(InetAddress.getByName(nic), port), 0)
   private val logger: Logger = Logger.getLogger(this.getClass.toString)
-
-  def Server(): Unit = {
-    logger.info("Starting server on " + nic + ":" + port)
-    server.setExecutor(null)
-    server.start()
-  }
+  
+  logger.info("Starting server on " + nic + ":" + port)
+  server.setExecutor(null)
+  server.start()
   
   def stop(): Unit = server.stop(0)
   
-  def main(args: Array[String]): Unit = {
-    Server()
-  }
+  def main(args: Array[String]) = {}
   
 }
