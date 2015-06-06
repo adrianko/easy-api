@@ -6,7 +6,7 @@ import java.util.logging.Logger
 import com.sun.net.httpserver.HttpServer
 import main.core.Handler
 
-object Server {
+object Server extends App {
   
   val nic: String = "0.0.0.0"
   val port: Int = 9090
@@ -22,7 +22,5 @@ object Server {
   server.start()
   
   def stop(): Unit = server.stop(0)
-  
-  def main(args: Array[String]) = {}
   
 }

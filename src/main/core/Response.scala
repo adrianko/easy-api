@@ -4,7 +4,6 @@ import java.io.IOException
 
 import com.sun.net.httpserver.HttpExchange
 import main.Server
-import org.json.JSONObject
 
 object Response {
   
@@ -22,8 +21,8 @@ object Response {
     }
   }
 
-  def send(t: HttpExchange, json: Map[String, Any]) {
-    send(t, new JSONObject(json).toString, 200)
+  def apply(t: HttpExchange, json: Map[String, Any]): Unit = {
+    send(t, "{}", 200)
   }
   
 }
