@@ -8,15 +8,16 @@ import org.json.JSONObject
 
 object Response {
   
-  private def send(t: HttpExchange, response: Array[Byte], code: Int, contentType: String) {
+  private def send(t: HttpExchange, response: String, code: Int, contentType: String) {
     Server.logger.info(t.getRequestMethod + ": " + t.getRequestURI.toString)
+    val responseBytes = response.getBytes
     
     try {
       if (contentType != null) {
         t.getResponseHeaders.add("Content-Type", contentType)
       }
-      t.sendResponseHeaders(code, response.length)
-      t.getResponseBody.write(response)
+      t.sendResponseHeaders(code, responseBytes.length)
+      t.getResponseBody.write(responseBytes)
       t.getResponseBody.close()
     }
     catch {
@@ -25,7 +26,7 @@ object Response {
   }
 
   def send(t: HttpExchange, json: Map[String, Any]) {
-    send(t, new JSONObject(json).toString.toArray[Byte], 200, "application/json")
+    send(t, new JSONObject(json).toString, 200, "application/json")
   }
   
 }
