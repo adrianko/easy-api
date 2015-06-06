@@ -24,7 +24,7 @@ object Response {
     }
   }
 
-  def send(t: HttpExchange, json: Map[String, AnyRef]) {
+  def send(t: HttpExchange, json: Map[String, Any]) {
     send(t, new JSONObject(json).toString.toArray[Byte], 200, "application/json")
   }
   
