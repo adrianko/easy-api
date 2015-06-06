@@ -5,6 +5,11 @@ repositories {
 	mavenLocal()
 }
 
+dependencies {
+	compile group: 'org.scala-lang', name: 'scala-compiler', version: '2.11.4'
+	compile group: 'org.scala-lang', name: 'scala-library', version: '2.11.4'
+}
+
 sourceSets {
 	main.scala.srcDir 'src'
 }
@@ -12,5 +17,5 @@ sourceSets {
 task run(type: JavaExec, dependsOn: classes) {
 	main = 'main.Server'
 	classpath = sourceSets.main.runtimeClasspath
-	classpath configuration.runtime
+	classpath configurations.runtime
 }
