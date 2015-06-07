@@ -38,13 +38,10 @@ object APIResponse {
     Response(httpExchange, response.toMap)
   }
 
-  def getURL: String = {
-    request
-  }
+  def getURL: String = request
 
-  def getRequest: HttpExchange = {
-    httpExchange
-  }
+  def getRequest: HttpExchange = httpExchange
+
 }
 
 object Handler extends HttpHandler {
@@ -57,6 +54,7 @@ object Handler extends HttpHandler {
 
     if (request.nonEmpty) {
       val routes: List[String] = u.typeOf[Routes.type].decls.filter(_.isModule).map(_.toString.split(" ")(1)).toList
+      val r = Class.forName("main.app.Routes$" + routes(0) + "$")
     }
   }
   
