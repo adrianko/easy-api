@@ -1,7 +1,7 @@
 package main.core
 
 import java.lang.reflect.Method
-
+import scala.reflect.runtime.{universe => u}
 import com.sun.net.httpserver.{HttpExchange, HttpHandler}
 import main.Server
 import main.app.Routes
@@ -54,13 +54,14 @@ object Handler extends HttpHandler {
 
   def parse(): Unit = {
     val request = response.getURL.replaceFirst(Server.path, "").split("\\?")(0).split("/").toList
+    println(request)
 
     if (request.nonEmpty) {
-      val route: Option[Class[_]] = Routes.getClass.getDeclaredClasses.find(r => r.getSimpleName.toLowerCase.equals(
-        request(0).toLowerCase))
+      println(u.typeOf[Routes.type].decls.filter(_.isModule).map(_.toString.split(" ")(1)).toList)
 
+      /*
       if (route.nonEmpty) {
-        val rp1: Endpoint = route.get.newInstance().asInstanceOf[Endpoint]
+        val rp1: Endpoint = route.getClass.newInstance().asInstanceOf[Endpoint]
         rp1.clearParams()
 
         if (request.size > 1) {
@@ -68,13 +69,14 @@ object Handler extends HttpHandler {
             request(1).toLowerCase))
 
           val args: Array[Any] = request.slice(2, request.size).toArray[Any]
-          println(args)
+          println(args.toString)
 
           if (args.size == subRoute.get.getParameterCount) {
             response.addResponse(subRoute.get.invoke(rp1, args))
           }
         }
       }
+      */
     }
   }
   
