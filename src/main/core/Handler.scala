@@ -1,6 +1,5 @@
 package main.core
 
-import java.lang.reflect.Method
 import scala.reflect.runtime.{universe => u}
 import com.sun.net.httpserver.{HttpExchange, HttpHandler}
 import main.Server
@@ -57,26 +56,7 @@ object Handler extends HttpHandler {
     println(request)
 
     if (request.nonEmpty) {
-      println(u.typeOf[Routes.type].decls.filter(_.isModule).map(_.toString.split(" ")(1)).toList)
-
-      /*
-      if (route.nonEmpty) {
-        val rp1: Endpoint = route.getClass.newInstance().asInstanceOf[Endpoint]
-        rp1.clearParams()
-
-        if (request.size > 1) {
-          val subRoute: Option[Method] = rp1.getClass.getDeclaredMethods.find(m => m.getName.toLowerCase.equals(
-            request(1).toLowerCase))
-
-          val args: Array[Any] = request.slice(2, request.size).toArray[Any]
-          println(args.toString)
-
-          if (args.size == subRoute.get.getParameterCount) {
-            response.addResponse(subRoute.get.invoke(rp1, args))
-          }
-        }
-      }
-      */
+      val routes: List[String] = u.typeOf[Routes.type].decls.filter(_.isModule).map(_.toString.split(" ")(1)).toList
     }
   }
   
