@@ -46,6 +46,7 @@ object APIResponse {
 
 object Handler extends HttpHandler {
 
+  val routes: List[String] = u.typeOf[Routes.type].decls.filter(_.isModule).map(_.toString.split(" ")(1)).toList
   val response = APIResponse
 
   def parse(): Unit = {
