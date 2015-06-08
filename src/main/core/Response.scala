@@ -3,6 +3,8 @@ package main.core
 import java.io.IOException
 
 import com.sun.net.httpserver.HttpExchange
+import spray.json._
+import main.core.EasyAPIProtocol._
 import main.Server
 
 object Response {
@@ -22,7 +24,9 @@ object Response {
   }
 
   def apply(t: HttpExchange, json: Map[String, Any]): Unit = {
-    send(t, "{}", 200)
+    val jsonString = json.toJson.toString()
+    println(jsonString)
+    //send(t, jsonString, 200)
   }
   
 }
