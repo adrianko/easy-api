@@ -21,6 +21,8 @@ object Server extends App {
   server.createContext("/", Handler)
   server.start()
   
+  scala.io.Source.fromURL("http://127.0.0.1:9091/settings/main/hello") //debug
+  
   def stop(): Unit = server.stop(0)
   
 }

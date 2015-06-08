@@ -1,6 +1,8 @@
 package main.core
 
-import scala.reflect.runtime.{universe => u}
+import java.lang.reflect.Method
+
+import scala.reflect.runtime.universe
 import com.sun.net.httpserver.{HttpExchange, HttpHandler}
 import main.Server
 import main.app.Routes
@@ -46,16 +48,31 @@ object APIResponse {
 
 object Handler extends HttpHandler {
 
-  val routes: List[String] = u.typeOf[Routes.type].decls.filter(_.isModule).map(_.toString.split(" ")(1)).toList
+  val routes: List[String] = universe.typeOf[Routes.type].decls.filter(_.isModule).map(_.toString.split(" ")(1)).toList
   val response = APIResponse
 
   def parse(): Unit = {
-    val request = response.getURL.replaceFirst(Server.path, "").split("\\?")(0).split("/").toList
-    println(request)
-
+    val request: List[String] = response.getURL.replaceFirst(Server.path, "").split("\\?")(0).split("/").toList
+    
     if (request.nonEmpty) {
-      val routes: List[String] = u.typeOf[Routes.type].decls.filter(_.isModule).map(_.toString.split(" ")(1)).toList
-      val r = Class.forName("main.app.Routes$" + routes(0) + "$")
+      val route: List[String] = routes.filter(r => r.toLowerCase.equals(request.head))
+      
+      if (route.nonEmpty) {
+        val routeObj: Endpoint = Class.forName("main.app.Routes$" + route.head + "$").newInstance.asInstanceOf[Endpoint]
+        
+        if (request.size > 1) {
+          val subRoute: Option[Method] = routeObj.getClass.getDeclaredMethods.find(m => m.getName.toLowerCase.equals(
+            request(1).toLowerCase))
+          
+          val method: Method = subRoute.get
+          val args: Array[Any] = request.slice(2, request.size).toArray
+          
+          if (args.length == method.getParameterCount) {
+            response.addResponse(method.invoke(routeObj, args))
+          }
+        }
+      }
+      
     }
   }
   
