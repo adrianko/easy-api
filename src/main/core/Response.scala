@@ -24,9 +24,10 @@ object Response {
   }
 
   def apply(t: HttpExchange, json: Map[String, Any]): Unit = {
+    println(json) //debug
     val jsonString = json.toJson.toString()
-    println(jsonString)
-    //send(t, jsonString, 200)
+    println(jsonString) //debug
+    send(t, jsonString, 200)
   }
   
 }

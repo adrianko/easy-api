@@ -52,23 +52,34 @@ object Handler extends HttpHandler {
   val response = APIResponse
 
   def parse(): Unit = {
+    println("-------------------------") //debug
     val request: List[String] = response.getURL.replaceFirst(Server.path, "").split("\\?")(0).split("/").toList
-    
+    println("-request") //debug
+    println(request) //debug
     if (request.nonEmpty) {
       val route: List[String] = routes.filter(r => r.toLowerCase.equals(request.head))
-      
+      println("-route") //debug
+      println(route) //debug
       if (route.nonEmpty) {
         val routeObj: Endpoint = Class.forName("main.app.Routes$" + route.head + "$").newInstance.asInstanceOf[Endpoint]
-        
+        println("-routeObj") //debug
+        println(routeObj) //debug
         if (request.size > 1) {
           val subRoute: Option[Method] = routeObj.getClass.getDeclaredMethods.find(m => m.getName.toLowerCase.equals(
             request(1).toLowerCase))
-          
-          val method: Method = subRoute.get
+          println("-subRoute") //debug
+          println(subRoute) //debug
+          val method: Method = subRoute.orNull
           val args: Array[Any] = request.slice(2, request.size).toArray
-          
+          println("-method") //debug
+          println(method) //debug
+          println("-args") //debug
+          println(args) //debug
           if (args.length == method.getParameterCount) {
-            response.addResponse(method.invoke(routeObj, args))
+            val resp = method.invoke(routeObj, args)
+            println("-resp") //debug
+            println(resp) //debug
+            response.addResponse(resp)
           }
         }
       }
