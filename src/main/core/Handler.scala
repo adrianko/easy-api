@@ -52,6 +52,7 @@ object Handler extends HttpHandler {
   val response = APIResponse
 
   def parse(): Unit = {
+    response.fail()
     println("-------------------------") //debug
     val request: List[String] = response.getURL.replaceFirst(Server.path, "").split("\\?")(0).split("/").toList
     println("-request") //debug
@@ -79,6 +80,7 @@ object Handler extends HttpHandler {
             val resp = method.invoke(routeObj, args)
             println("-resp") //debug
             println(resp) //debug
+            response.successful()
             response.addResponse(resp)
           }
         }
