@@ -6,6 +6,7 @@ object Routes {
 
   object Settings extends Endpoint {
     def main(test: Any): String = "main method"
+    def list(): List[Int] = List(1, 2, 3)
   }
 
   object Another extends Endpoint {
