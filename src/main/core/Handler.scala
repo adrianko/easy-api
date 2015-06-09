@@ -69,7 +69,10 @@ object Handler extends HttpHandler {
             val method: Method = subRoute.orNull
             val args: Array[Any] = request.slice(2, request.size).toArray
 
-            if (args.length == method.getParameterCount) {
+            if (method.getParameterCount == 0) {
+              response.successful()
+              response.addResponse(method.invoke(routeObj))
+            } else if (args.length == method.getParameterCount && method.getParameterCount > 0) {
               response.successful()
               response.addResponse(method.invoke(routeObj, args))
             }
