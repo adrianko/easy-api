@@ -25,13 +25,8 @@ object APIResponse {
 
   def addResponse(r: Any) = response = r
 
-  def send(): Unit = {
-    val response: collection.mutable.Map[String, Any] = collection.mutable.Map[String, Any]()
-    response.put("request", request)
-    response.put("success", success)
-    response.put("response", this.response)
-    Response(httpExchange, response.toMap)
-  }
+  def send(): Unit = Response(httpExchange, Map[String, Any]("request" -> request, "success" -> success, "response" -> 
+    this.response))
 
   def getURL: String = request
 
