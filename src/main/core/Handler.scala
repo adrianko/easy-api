@@ -55,32 +55,34 @@ object Handler extends HttpHandler {
     response.fail()
     val request: List[String] = response.getURL.replaceFirst(Server.path, "").split("\\?")(0).split("/").toList
     
-    if (request.nonEmpty) {
-      val route: List[String] = routes.filter(r => r.toLowerCase.equals(request.head))
-      
-      if (route.nonEmpty) {
-        val routeObj: Endpoint = Class.forName("main.app.Routes$" + route.head + "$").newInstance.asInstanceOf[Endpoint]
-        
-        if (request.size > 1) {
-          val subRoute: Option[Method] = routeObj.getClass.getDeclaredMethods.find(m => m.getName.toLowerCase.equals(
-            request(1).toLowerCase))
-          
-          if (subRoute.nonEmpty) {
-            val method: Method = subRoute.orNull
-            val args: Array[Any] = request.slice(2, request.size).toArray
+    if (request.isEmpty) return
+    
+    val route: List[String] = routes.filter(r => r.toLowerCase.equals(request.head))
+    
+    if (route.isEmpty) return
+    
+    val rp1: Endpoint = Class.forName("main.app.Routes$" + route.head + "$").newInstance.asInstanceOf[Endpoint]
+    
+    if (request.size == 1) return
+    
+    val subRoute: Option[Method] = rp1.getClass.getDeclaredMethods.find(m => m.getName.toLowerCase.equals(request(1)
+      .toLowerCase))
+    
+    if (subRoute.isEmpty) return
+    
+    val method: Method = subRoute.orNull
+    val args: Array[Any] = request.slice(2, request.size).toArray
 
-            if (method.getParameterCount == 0) {
-              response.successful()
-              response.addResponse(method.invoke(routeObj))
-            } else if (args.length == method.getParameterCount && method.getParameterCount > 0) {
-              response.successful()
-              response.addResponse(method.invoke(routeObj, args))
-            }
-          }
-        }
-      }
+    if (args.length != method.getParameterCount) {
+      response.addResponse("Path has incorrect number of parameters. Given: " + args.length + ", Required: " +
+        method.getParameterCount)
       
+      return
     }
+    
+    response.successful()
+    response.addResponse(if (method.getParameterCount == 0) method.invoke(rp1) else method.invoke(rp1, args))
+    
   }
   
   override def handle(httpExchange: HttpExchange): Unit = {
