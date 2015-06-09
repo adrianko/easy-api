@@ -18,19 +18,12 @@ object APIResponse {
     request = req
     httpExchange = he
     response = null
-  }
-
-  def successful():Unit = {
-    success = 1
-  }
-
-  def fail(): Unit = {
     success = 0
   }
 
-  def addResponse(r: Any) {
-    response = r
-  }
+  def successful(): Unit = success = 1
+
+  def addResponse(r: Any) = response = r
 
   def send(): Unit = {
     val response: collection.mutable.Map[String, Any] = collection.mutable.Map[String, Any]()
@@ -52,7 +45,6 @@ object Handler extends HttpHandler {
   val response = APIResponse
 
   def parse(): Unit = {
-    response.fail()
     val request: List[String] = response.getURL.replaceFirst(Server.path, "").split("\\?")(0).split("/").toList
     
     if (request.isEmpty) return
