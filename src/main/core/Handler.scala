@@ -1,7 +1,6 @@
 package main.core
 
 import java.lang.reflect.Method
-
 import scala.reflect.runtime.universe
 import com.sun.net.httpserver.{HttpExchange, HttpHandler}
 import main.Server

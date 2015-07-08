@@ -2,7 +2,6 @@ package main
 
 import java.net.{InetAddress, InetSocketAddress}
 import java.util.logging.Logger
-
 import com.sun.net.httpserver.HttpServer
 import main.core.Handler
 

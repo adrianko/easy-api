@@ -1,8 +1,9 @@
 package main.core
 
+import scala.collection.JavaConversions.mapAsJavaMap
 import java.io.IOException
-
 import com.sun.net.httpserver.HttpExchange
+import org.json.simple.JSONObject
 import main.Server
 
 object Response {
@@ -22,7 +23,7 @@ object Response {
   }
 
   def apply(t: HttpExchange, json: Map[String, Any]): Unit = {
-    send(t, json.toString(), 200)
+    send(t, new JSONObject(mapAsJavaMap(json)).toString, 200)
   }
   
 }
