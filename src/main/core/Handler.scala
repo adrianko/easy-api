@@ -1,7 +1,7 @@
 package main.core
 
-import java.lang.reflect.Method
 import scala.reflect.runtime.universe
+import java.lang.reflect.Method
 import com.sun.net.httpserver.{HttpExchange, HttpHandler}
 import main.Server
 import main.app.Routes
@@ -68,7 +68,6 @@ object Handler extends HttpHandler {
     
     response.successful()
     response.addResponse(if (method.getParameterCount == 0) method.invoke(rp1) else method.invoke(rp1, args))
-    
   }
   
   override def handle(httpExchange: HttpExchange): Unit = {

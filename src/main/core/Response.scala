@@ -22,8 +22,6 @@ object Response {
     }
   }
 
-  def apply(t: HttpExchange, json: Map[String, Any]): Unit = {
-    send(t, new JSONObject(mapAsJavaMap(json)).toString, 200)
-  }
+  def apply(t: HttpExchange, json: Map[String, Any]): Unit = send(t, new JSONObject(mapAsJavaMap(json)).toString, 200)
   
 }
