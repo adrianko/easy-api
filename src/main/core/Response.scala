@@ -6,6 +6,9 @@ import com.sun.net.httpserver.HttpExchange
 import org.json.simple.JSONObject
 import main.Server
 
+/**
+ * TODO check response type and parse into string
+ */
 object Response {
   
   private def send(t: HttpExchange, response: String, code: Int) {
@@ -22,6 +25,8 @@ object Response {
     }
   }
 
-  def apply(t: HttpExchange, json: Map[String, Any]): Unit = send(t, new JSONObject(mapAsJavaMap(json)).toString, 200)
+  def apply(t: HttpExchange, json: Map[String, Any]): Unit = {
+    send(t, new JSONObject(mapAsJavaMap(json)).toString, 200)
+  }
   
 }

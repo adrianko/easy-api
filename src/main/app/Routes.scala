@@ -11,6 +11,7 @@ object Routes {
 
   object Another extends Endpoint {
     def hello(): String = "world"
+    def map(): Map[String, Int] = Map[String, Int]("abc" -> 1, "def" -> 2)
   }
 
 }
